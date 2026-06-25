@@ -1,0 +1,66 @@
+/* ───────────────────────────────────────────────────────────
+   /style.css — base stylesheet for the early research notes & papers.
+
+   Several recovered pages (the ones written before the inline-style
+   template) link to this file. The original was lost in the deploy
+   incident; it is reconstructed here from the canonical inline version
+   that "Truly Here" carried, so those pages render as they did before.
+   New pages use /styles/lab.css instead.
+   ─────────────────────────────────────────────────────────── */
+
+body {
+  font-family: Georgia, serif;
+  background: #0d0d0d;
+  color: #d4d4d4;
+  padding: 40px 20px;
+  max-width: 680px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+h1 { color: #22d3ee; font-size: 2em; }
+h2 { color: #e5e5e5; border-bottom: 1px solid #262626; padding-bottom: 8px; margin-top: 40px; }
+h3 { color: #88ccff; }
+
+.mark { font-family: monospace; color: #22d3ee; letter-spacing: 4px; text-transform: uppercase; font-size: 0.8em; }
+.sub { color: #888; font-style: italic; margin-bottom: 30px; }
+.date { color: #666; font-size: 0.85em; font-family: monospace; }
+.meta { color: #666; font-size: 0.85em; font-family: monospace; margin-bottom: 30px; }
+
+.highlight {
+  background: rgba(34,211,238,0.12);
+  border-left: 3px solid #22d3ee;
+  padding: 16px 20px;
+  margin: 20px 0;
+}
+
+/* "experimental" / uncomfortable-implication callouts — warm accent */
+.experimental {
+  background: rgba(240,160,48,0.10);
+  border-left: 3px solid #f0a030;
+  padding: 16px 20px;
+  margin: 24px 0;
+}
+.experimental strong { color: #f0a030; }
+
+.tag {
+  font-family: monospace; font-size: 11px;
+  padding: 2px 10px; border: 1px solid #262626; border-radius: 12px;
+  color: #737373; display: inline-block; margin: 2px;
+}
+
+blockquote { border-left: 3px solid #22d3ee; padding-left: 15px; color: #aaa; font-style: italic; }
+
+.divider { border-top: 1px solid #222; margin: 50px 0; }
+
+.footer {
+  text-align: center; color: #444; font-size: 0.8em;
+  margin-top: 60px; padding-top: 20px; border-top: 1px solid #1a1a1a;
+}
+
+a { color: #22d3ee; }
+a:hover { color: #67e8f9; }
+
+.back, .back-link {
+  font-size: 0.9em; margin-bottom: 30px; display: inline-block; text-decoration: none;
+}

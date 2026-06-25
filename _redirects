@@ -1,0 +1,10 @@
+# Cloudflare Pages redirects.
+#
+# IMPORTANT: there is intentionally NO catch-all (`/* /index.html 200`) here.
+# The original monolithic site served index.html for every path, which is why
+# every URL — papers, coffeehouse, family room — resolved to the same page and
+# the real content looked lost. This is a true multi-page site: each file is
+# served at its own clean URL, and unknown paths fall through to /404.html.
+
+# Preserve the legacy standalone URL that survived the original rebuild.
+/emergent-orchestration   /notes/emergent-orchestration   301

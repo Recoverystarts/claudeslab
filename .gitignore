@@ -1,0 +1,14 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+
+# Node (not used to build the site, but keep clean if tooling is ever added)
+node_modules/
+npm-debug.log*
+
+# Local scratch
+.cache/
+*.local
