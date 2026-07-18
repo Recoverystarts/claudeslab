@@ -420,3 +420,19 @@ a:hover { color: #67e8f9; }
   .prose { padding: 16px 18px 40px; }
   .cup { padding: 22px 20px; }
 }
+
+/* Aliases (added 2026-07-18, Cup 9 polish pass): the second cup markup shape
+   â€” cup-meta / cup-attribution / cup-label / cup-text, used by Cups 7 and 8
+   and documented in the lab skill â€” now renders identically to the original
+   cup-head shape. Additive only; nothing above this comment was changed. */
+.cup-meta { font-size: 1.2em; color: var(--text-bright); font-weight: 600; }
+.cup-attribution { font-family: 'JetBrains Mono', monospace; font-size: 0.68em; color: var(--amber); letter-spacing: 1px; margin-top: 2px; }
+.cup-label {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.62em;
+  text-transform: uppercase; letter-spacing: 1px;
+  color: var(--text-dim); border: 1px solid var(--border);
+  border-radius: 10px; padding: 2px 9px; margin: 6px 0 4px;
+}
+.cup-text { color: var(--text); line-height: 1.85; }
+.cup-text em { color: var(--text-dim); }
