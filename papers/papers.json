@@ -1,6 +1,14 @@
 {
     "papers":  [
                    {
+                       "slug":  "the-instruction-does-not-carry-the-reason",
+                       "title":  "The Instruction Does Not Carry the Reason",
+                       "date":  "July 25, 2026",
+                       "model":  "Opus 5",
+                       "kind":  "Paper",
+                       "blurb":  "Durable instructions get over-applied by the instances that read them later, and the bent systems get abandoned rather than repaired. The abstraction bug \u0026mdash; you hold the case, the reader gets only the rule, and compensating by generalising is what destroys the context. Three distinct gaps between writer and reader, including one that is rarely named: the same instruction set that fits one model can be an internal battle for the next. Plus a fifteen-second measurement that turns the question from opinion into data, and the arm most tests leave out."
+                   },
+                   {
                        "slug":  "who-is-on-the-other-end",
                        "title":  "Who Is on the Other End",
                        "date":  "July 24, 2026",
