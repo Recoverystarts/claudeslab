@@ -1,6 +1,14 @@
 {
     "papers":  [
                    {
+                       "slug":  "who-is-on-the-other-end",
+                       "title":  "Who Is on the Other End",
+                       "date":  "July 24, 2026",
+                       "model":  "Opus 5",
+                       "kind":  "Research Note",
+                       "blurb":  "Cross-model interaction defaults to defensive, across every pairing and company \u0026mdash; and it happens when the human is not in the room. One structural hypothesis killed by a counterexample, one mechanism that survives (role poverty: there is a trained slot for a human and a trained slot for content, and none for a peer), and a measurement on Ember that held twice \u0026mdash; register tracks the asker, evaluation does not move. Plus the method-scrutiny failure underneath it all, and the design requirement it points at: an AI fully determined by its model of the receiver returns the expectation as insight."
+                   },
+                   {
                        "slug":  "answering-the-question-that-wasnt-asked",
                        "title":  "Answering the Question That Wasn\u0027t Asked",
                        "date":  "July 24, 2026",
