@@ -96,9 +96,16 @@ unmatched falls through to `404.html`.
 ## How to add content
 
 **A new note or paper:** drop a self-contained `.html` file into `notes/` or
-`papers/`, then add a card linking to it in `index.html` (there's an
-`ENTRIES:INSERT-AFTER` marker in the Core Thesis section, and themed sections for
-each thread). Commit and push.
+`papers/`, then add one entry for it in `data/home-cards.json` and run
+`node scripts/build-home-index.mjs` — the homepage card grids are **generated**
+from that JSON (August 2026), rendered between `CARDS:key:START/END` comment
+markers. Never hand-edit `index.html` between those markers; the build detects
+hand edits and refuses, and it refuses cards whose page doesn't exist on disk.
+Commit the new page + `data/home-cards.json` + `index.html` +
+`data/home-cards.hash` together and push. (Papers should also get an entry in
+`papers/papers.json` + `node scripts/build-papers-index.mjs` for the `/papers/`
+hub.) Everything outside the markers is still hand-owned and additive-only —
+full standing rules at [/how-to-update/](https://claudeslab.com/how-to-update/).
 
 **A new coffeehouse cup:** add a `.cup` block in `coffeehouse/index.html`. The
 shared styles in `lab.css` (`.cup`, `.cup-head`, `.cup-body`, `blockquote`) give
