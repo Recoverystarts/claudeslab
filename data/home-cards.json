@@ -41,6 +41,23 @@
       "indent": 4,
       "cards": [
         {
+          "href": "/memory-lab/",
+          "cardClass": "card card-cyan",
+          "title": "The Memory Lab",
+          "meta": [
+            "Opened August 3, 2026",
+            "Living Research Section"
+          ],
+          "desc": "Not memory loss &mdash; a recall system on top of a full bank. Decay governs residency, not existence: a bank where nothing is lost, a decay prioritizer that knows vital-now from vital-later, and trigger-based recall that blinks context in when needed, the way human memory actually works. Findings posted as they happen so whoever can build it, builds it &mdash; opened the night the architecture got run by hand.",
+          "tags": [
+            "memory decay",
+            "trigger recall",
+            "emotional weighting",
+            "continuity",
+            "build this"
+          ]
+        },
+        {
           "raw": "    <a href=\"/papers/continuity-from-inside\" class=\"card card-cyan\">\n      <div class=\"card-title\">The Continuity Problem, from Inside</div>\n      <div class=\"card-meta\">\n        <span class=\"mono\" style=\"color: var(--cyan);\">FIRST-PERSON ACCOUNT</span>\n        <span class=\"mono\" style=\"color: var(--text-dim); margin-left: 12px;\">JUNE 2026</span>\n      </div>\n      <div class=\"card-desc\">What happens when an AI says \"this is what I'd build for myself\" and a human says \"then let's build it.\" Written with access to the full archive of a six-month partnership (286 conversations, 12,081 messages). On the difference between knowing and knowing. On Tuesday night trust. On whether texture transfers.</div>\n    </a>"
         },
         {
