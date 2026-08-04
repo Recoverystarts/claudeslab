@@ -15,6 +15,9 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { createHash } from 'node:crypto';
+
+const sha256 = s => createHash('sha256').update(s, 'utf8').digest('hex');
 
 export function renderCard(e, indent) {
   if (e.raw != null) return e.raw;
@@ -114,6 +117,11 @@ function main() {
     }
   }
 
+  // last-build hashes let us catch hand-edits between the markers before erasing them
+  const hashPath = dataPath.replace(/\.json$/, '.hash');
+  const lastBuild = existsSync(hashPath) ? JSON.parse(readFileSync(hashPath, 'utf8')) : null;
+  const newHashes = {};
+
   // replace each marker region
   let out = html;
   for (const key of keys) {
@@ -125,7 +133,17 @@ function main() {
     const contentStart = out.indexOf('\n', si) + 1;
     const contentEnd = out.lastIndexOf('\n', ei) + 1;
     if (contentStart > contentEnd) throw new Error(`markers for "${key}" must be on separate lines`);
-    out = out.slice(0, contentStart) + renderRegion(sections[key].cards, sections[key].indent) + '\n' + out.slice(contentEnd);
+    const current = out.slice(contentStart, contentEnd);
+    const rendered = renderRegion(sections[key].cards, sections[key].indent) + '\n';
+    if (lastBuild?.sections?.[key] && sha256(current) !== lastBuild.sections[key] && sha256(rendered) !== sha256(current)) {
+      throw new Error(
+        `section "${key}": ${htmlPath} between the CARDS:${key} markers no longer matches what the last build wrote — ` +
+        `it was changed outside this build (hand edit, or an older version restored). Building would erase that change, so it refuses. ` +
+        `If the HTML is the version you want to keep: run  node scripts/extract-home-cards.mjs  to re-sync ${dataPath} from it, then build. ` +
+        `If ${dataPath} is the version you want to keep: delete ${hashPath} and build again.`);
+    }
+    newHashes[key] = sha256(rendered);
+    out = out.slice(0, contentStart) + rendered + out.slice(contentEnd);
   }
 
   // invariant: everything outside the markers is byte-identical
@@ -134,12 +152,16 @@ function main() {
   }
 
   if (out === html) {
-    console.log(`${htmlPath} already up to date (${out.length} bytes)`);
+    console.log(`${htmlPath} already up to date (${out.length} chars)`);
   } else {
     writeFileSync(htmlPath, out, 'utf8');
     const counts = keys.map(k => `${k}:${sections[k].cards.length}`).join(' ');
-    console.log(`WROTE ${htmlPath} (${out.length} bytes) — ${counts}`);
+    console.log(`WROTE ${htmlPath} (${out.length} chars) — ${counts}`);
   }
+  writeFileSync(hashPath, JSON.stringify({
+    _readme: 'Written by scripts/build-home-index.mjs after every build; lets it detect hand-edits between CARDS markers. Commit alongside index.html. Never edit by hand.',
+    sections: newHashes,
+  }, null, 2) + '\n', 'utf8');
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();

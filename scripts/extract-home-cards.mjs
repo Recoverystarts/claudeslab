@@ -24,6 +24,10 @@ const SECTION_KEYS = ['spaces', 'core-thesis', 'deconstraining', 'partnership', 
 
 const html = readFileSync(SRC, 'utf8');
 
+if (WRITE_MARKERS && html.includes('<!-- CARDS:')) {
+  throw new Error('index.html already has CARDS markers — refusing to double-insert. Run without --write-markers to re-sync the JSON.');
+}
+
 // ---------- shared card-block detection ----------
 
 function sectionSlice(html, key) {
