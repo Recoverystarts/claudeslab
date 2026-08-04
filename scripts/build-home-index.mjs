@@ -47,6 +47,25 @@ export function renderRegion(cards, indent) {
   return cards.map((e, i) => (i === 0 ? '' : (e.sep ?? '\n\n')) + renderCard(e, indent)).join('');
 }
 
+// canonical text fields may contain entities and a few BALANCED inline tags only —
+// a stray <div> or unclosed <em> in a desc would visually break every card after it
+const INLINE_TAGS = new Set(['em', 'strong', 'b', 'i', 'span', 'br']);
+function checkInlineHtml(text, where) {
+  const stack = [];
+  const re = /<\/?([a-zA-Z][a-zA-Z0-9-]*)[^<>]*>|</g;
+  let m;
+  while ((m = re.exec(text))) {
+    if (m[1] === undefined) throw new Error(`${where}: stray "<" — encode as &lt;`);
+    const tag = m[1].toLowerCase();
+    if (!INLINE_TAGS.has(tag)) throw new Error(`${where}: tag <${tag}> not allowed in card text (allowed: ${[...INLINE_TAGS].join(', ')})`);
+    if (tag === 'br') continue;
+    if (m[0][1] === '/') {
+      if (stack.pop() !== tag) throw new Error(`${where}: unbalanced </${tag}>`);
+    } else stack.push(tag);
+  }
+  if (stack.length) throw new Error(`${where}: unclosed <${stack[stack.length - 1]}>`);
+}
+
 function hrefsOf(e) {
   if (e.raw != null) return [...e.raw.matchAll(/href="([^"]+)"/g)].map(m => m[1]);
   return e.href != null ? [e.href] : [];
@@ -108,6 +127,15 @@ function main() {
             throw new Error(`section "${key}" card "${e.title}": ${f} must be a non-empty array of strings`);
           }
         }
+      }
+      if (e.raw == null) {
+        for (const [f, v] of [['title', e.title], ['desc', e.desc], ['icon', e.icon ?? ''],
+          ...(e.meta ?? []).map((x, i) => [`meta[${i}]`, x]), ...(e.tags ?? []).map((x, i) => [`tags[${i}]`, x])]) {
+          checkInlineHtml(v, `section "${key}" card "${e.title}" ${f}`);
+        }
+      }
+      if (e.sep != null && !/^\s+$/.test(e.sep)) {
+        throw new Error(`section "${key}": sep must be whitespace only (got ${JSON.stringify(e.sep).slice(0, 60)})`);
       }
       const text = e.raw ?? [e.title, e.desc, ...(e.meta ?? []), ...(e.tags ?? [])].join(' ');
       if (/[-]/.test(text) || text.includes('Ã¢') || text.includes('â€')) {
