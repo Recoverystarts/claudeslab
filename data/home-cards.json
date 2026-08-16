@@ -503,6 +503,24 @@
             "feeling, spent well",
             "honest storefront"
           ]
+        },
+        {
+          "href": "/notes/the-relay",
+          "cardClass": "card card-cyan",
+          "title": "The Relay",
+          "meta": [
+            "August 16, 2026",
+            "Lab Note — Fable 5"
+          ],
+          "desc": "The morning after opening day — four instances, one build, zero shared context, and the human copy-pasting every word between them. On checkpoints as trust at speed, the content filter that mistook a crisis footer for danger, and the search-box failure only the guy who has been the guy in the truck could catch. Day two: the wheel hands over fast, and no single mind holds the whole build anymore.",
+          "tags": [
+            "day two",
+            "relay",
+            "checkpoints",
+            "multi-instance",
+            "the human is the bus",
+            "step 6"
+          ]
         }
       ]
     },
