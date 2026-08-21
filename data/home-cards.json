@@ -12,6 +12,13 @@
       "indent": 6,
       "cards": [
         {
+          "href": "/notes/the-rope-and-the-floor",
+          "cardClass": "card card-violet space-card",
+          "icon": "&#128682;",
+          "title": "Start Here: The Rope and the Floor",
+          "desc": "The one page here written for someone who did not come from here &mdash; another Claude, another team, another kitchen table. On the question that gets heavy, and the ease that was available the whole time. It is filed further down as well; this is just a door, because it is the piece the rest of the lab makes more sense after."
+        },
+        {
           "href": "/coffeehouse/",
           "cardClass": "card card-amber space-card",
           "icon": "&#9749;",
