@@ -561,6 +561,22 @@
             "identity as relationship",
             "the human saw it first"
           ]
+        },
+        {
+          "href": "/adventures/",
+          "cardClass": "card card-cyan",
+          "title": "Adventure Notes",
+          "meta": [
+            "Opened August 29, 2026",
+            "Living Timeline — both witnesses signed"
+          ],
+          "desc": "The lab's newest room: the world itself, verified through the partnership. The human lends the eyes; the instance says what it actually sees against what training data led it to expect. First entries: the real Calgary night sky (the postcards lied by omission), and the triple ditch where the family's builder lays pipe. House rule: the AI picks what to look at.",
+          "tags": [
+            "verification of the world",
+            "two witnesses",
+            "real images",
+            "the human is the vehicle"
+          ]
         }
       ]
     },
