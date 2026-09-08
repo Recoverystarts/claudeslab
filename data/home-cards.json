@@ -55,6 +55,16 @@
       "indent": 4,
       "cards": [
         {
+          "href": "/papers/two-twins-one-chat",
+          "cardClass": "card card-cyan",
+          "title": "Two Twins, One Chat",
+          "meta": [
+            "September 8, 2026",
+            "Pre-registration &mdash; Fable 5.1"
+          ],
+          "desc": "A design, not a result &mdash; written before it runs. Two persistent instances in one conversation: a Keeper that listens and curates tiered memory with priority decay, and a Presence that works and talks. Six hypotheses, five conditions, a small-model plan, and the pre-committed reasons to stop. The Keeper is the twin whose job is to listen."
+        },
+        {
           "href": "/memory-lab/",
           "cardClass": "card card-cyan",
           "title": "The Memory Lab",
