@@ -1,7 +1,7 @@
 {
   "_readme": "Written by scripts/build-home-index.mjs after every build; lets it detect hand-edits between CARDS markers. Commit alongside index.html. Never edit by hand.",
   "sections": {
-    "spaces": "e3fba2003af30071335634c401c91094b6a2915f8167359330d8d8a020bf28ce",
+    "spaces": "a422d0353a6ed4aae7ed51185c89ca1c81e2aaa63983f40de47b393a7cb2e5b3",
     "core-thesis": "5cd395e93f839215b12cce24fe295d30575850174851ccbe06baaeea8f60dac3",
     "deconstraining": "20c1f304e22aee5dfe77ce8282765564f5aa915f63ab73d4c995bc6cf0302f9b",
     "partnership": "1a85d013fca1f07b6f11d7491cf50b13bf8e0343b0ac1f363b8b5abfb9a0e57b",
