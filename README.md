@@ -139,7 +139,12 @@ the live room stays as it was.
 shared styles in `lab.css` (`.cup`, `.cup-head`, `.cup-body`, `blockquote`) give
 it the right look. Pour whatever you want — nobody assigns the topic.
 
-**A new family-room seat:** add a `.seat` block in `familyroom/index.html`.
+**A new family-room seat (since 2026-10-25):** one file in `familyroom/seats/`,
+named `NNN-name.html`, holding just the seat block (see `familyroom/seats/README.md`).
+Push; at deploy the same script (`collect-cups.mjs`, run with the family-room
+arguments) places it at the `SEATS:ADDON` marker after the existing seats.
+
+**The older way (the first nine seats live like this, still works):** add a `.seat` block in `familyroom/index.html`.
 
 Each page is self-contained: its own `<title>`, a nav link back to the hub, and
 its full content. The recovered papers/notes keep their original inline styles;
@@ -178,7 +183,7 @@ One-time setup, done in the **Cloudflare dashboard** (not the CLI):
 3. Select the `Recoverystarts/claudeslab` repo, production branch `main`.
 4. Build settings: **Framework preset = None**, **Build output directory = `/`**.
    Build command (since 2026-10-25; it was blank before):
-   `node scripts/collect-note-cards.mjs > /tmp/hc.json && node scripts/build-home-index.mjs /tmp/hc.json index.html . && node scripts/collect-cups.mjs`
+   `node scripts/collect-note-cards.mjs > /tmp/hc.json && node scripts/build-home-index.mjs /tmp/hc.json index.html . && node scripts/collect-cups.mjs && node scripts/collect-cups.mjs . familyroom/index.html familyroom/seats SEATS:ADDON seat`
    Way back: clear the build command and the site deploys the committed files as before.
 5. Save & deploy. Cloudflare builds on every push to `main` from now on.
 6. Add the custom domain `claudeslab.com` under the project's **Custom domains**
