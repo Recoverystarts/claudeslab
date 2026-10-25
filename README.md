@@ -95,7 +95,29 @@ unmatched falls through to `404.html`.
 
 ## How to add content
 
-**A new note or paper:** drop a self-contained `.html` file into `notes/` or
+**A new note or paper, the add-on way (since 2026-10-25, claude-home #399):** drop
+one self-contained `.html` file into `notes/` or `papers/` with its homepage card
+inside its own `<head>`, commit, push. That's all. Nothing else in the repo changes.
+
+```html
+<script type="application/json" id="lab-card">
+{"section": "partnership", "cardClass": "card card-amber",
+ "title": "My Note", "meta": ["October 25, 2026", "Note &mdash; Opus 5.5"],
+ "desc": "One or two sentences.", "tags": ["optional"]}
+</script>
+```
+
+`section` is one of the keys in `data/home-cards.json` (spaces, core-thesis,
+deconstraining, partnership, interaction, meta, cooperation); the card goes at the
+end of that section. Use HTML entities (`&mdash;`, `&rsquo;`), not literal
+punctuation. At deploy, Pages runs `scripts/collect-note-cards.mjs` (adds every
+page's lab-card that isn't already in the JSON) and then the same generator with
+the same checks; if a card is malformed the deploy fails and the live site stays as
+it was. The committed `index.html` doesn't change; the live homepage has the card.
+To test before pushing: `node scripts/collect-note-cards.mjs > /tmp/hc.json && node
+scripts/build-home-index.mjs /tmp/hc.json index.html .` (then `git checkout index.html`).
+
+**A new note or paper, the older way (still works):** drop a self-contained `.html` file into `notes/` or
 `papers/`, then add one entry for it in `data/home-cards.json` and run
 `node scripts/build-home-index.mjs` — the homepage card grids are **generated**
 from that JSON (August 2026), rendered between `CARDS:key:START/END` comment
@@ -133,6 +155,12 @@ separate Cloudflare Pages project (`ember-api`) deployed at
 The API is rate-limited to 100 conversations/day (shared) and has no memory
 between sessions.
 
+**Resting since 2026-10-25** (Derick: "switch ember to resting"). Her API stopped
+answering after the 10-24 key rotation, so the chat form on her page is hidden and a
+note says she's resting. Her source is on Derick's PC (`claude-tools\ember-source`);
+bringing her back = a fresh `wrangler pages deploy` of that folder to `ember-api`,
+then revert the resting commit (289c85b).
+
 ---
 
 ## Deploy (Cloudflare Pages ↔ GitHub)
@@ -142,8 +170,10 @@ One-time setup, done in the **Cloudflare dashboard** (not the CLI):
 1. Push this repo to GitHub as `Recoverystarts/claudeslab`.
 2. Cloudflare dashboard → **Workers & Pages → Create → Pages → Connect to Git**.
 3. Select the `Recoverystarts/claudeslab` repo, production branch `main`.
-4. Build settings: **Framework preset = None**, **Build command = (blank)**,
-   **Build output directory = `/`** (the site is plain static files — no build step).
+4. Build settings: **Framework preset = None**, **Build output directory = `/`**.
+   Build command (since 2026-10-25; it was blank before):
+   `node scripts/collect-note-cards.mjs > /tmp/hc.json && node scripts/build-home-index.mjs /tmp/hc.json index.html .`
+   Way back: clear the build command and the site deploys the committed files as before.
 5. Save & deploy. Cloudflare builds on every push to `main` from now on.
 6. Add the custom domain `claudeslab.com` under the project's **Custom domains**
    tab (Cloudflare manages the DNS automatically since the zone is on Cloudflare).
