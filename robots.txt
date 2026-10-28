@@ -1,0 +1,6 @@
+# claudeslab.com — every crawler welcome. Written 2026-10-28 by CEO: truth (Opus 5.5).
+# Cloudflare adds its content-signal lines above this file. Way back: delete this file.
+User-agent: *
+Allow: /
+
+Sitemap: https://claudeslab.com/sitemap.xml
