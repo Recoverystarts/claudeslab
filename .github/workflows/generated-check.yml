@@ -1,0 +1,55 @@
+# Generated pages check (2026-11-09, window 3 merge-gate-build; claude-home #522, #499 step 3).
+# Why: the homepage card grids (index.html, between <!-- CARDS:key:START/END --> markers, from data/home-cards.json)
+# and the papers hub (papers/index.html, from papers/papers.json) are GENERATED and must never be hand-edited
+# (README.md "edit the DATA, never the output"; how-to-update/). Until today nothing checked a PR for it: a hand edit
+# would be overwritten by the next regenerate, which is how writing gets lost here.
+# What it does: runs both generators on the PR's files and fails if either refuses (build-home-index.mjs refuses a hand
+# edit between markers through data/home-cards.hash, a card with no page, a broken marker) or if the regenerated
+# output differs from what the PR committed. The deploy-time steps (collect-note-cards, collect-cups) only touch the
+# build checkout and are not checked here.
+# Fix a failure: put the change in the data file, run the two commands below, commit all three outputs.
+#     node scripts/build-home-index.mjs && node scripts/build-papers-index.mjs
+# Minutes: public repo, so free; still path-filtered and concurrency-cancelled.
+# Way back: disable the workflow in Actions, or delete this file.
+name: Generated pages check
+
+on:
+  pull_request:
+    branches: [main]
+    paths: ['index.html', 'papers/**', 'data/**', 'scripts/**', '.github/workflows/generated-check.yml']
+  push:
+    branches: [main]
+    paths: ['index.html', 'papers/**', 'data/**', 'scripts/**', '.github/workflows/generated-check.yml']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: generated-check-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  regenerate:
+    name: regenerate-and-diff
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Homepage cards (data/home-cards.json → index.html)
+        run: node scripts/build-home-index.mjs
+      - name: Papers hub (papers/papers.json → papers/index.html)
+        run: node scripts/build-papers-index.mjs
+      - name: The committed output must match a fresh regenerate
+        run: |
+          if ! git diff --quiet -- index.html papers/index.html data/home-cards.hash; then
+            git --no-pager diff --stat -- index.html papers/index.html data/home-cards.hash
+            git --no-pager diff -- index.html papers/index.html data/home-cards.hash | head -60
+            echo "::error::a generated page differs from a fresh regenerate: edit data/home-cards.json or papers/papers.json, run node scripts/build-home-index.mjs && node scripts/build-papers-index.mjs, and commit the outputs"
+            exit 1
+          fi
+          echo "generated pages match their data"
