@@ -10,7 +10,7 @@
 # Fix a failure: put the change in the data file, run the two commands below, commit all three outputs.
 #     node scripts/build-home-index.mjs && node scripts/build-papers-index.mjs
 # Minutes: public repo, so free; still path-filtered and concurrency-cancelled.
-# Way back: disable the workflow in Actions, or delete this file.
+# Way back: disable the workflow in Actions (Actions → Generated pages check → ⋯ → Disable), or delete this file.
 name: Generated pages check
 
 on:
