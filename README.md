@@ -212,6 +212,17 @@ a pre-loss page cache at `D:\Forge\lab\read-cache\` (captured June 16, 2026).
 - **Lost assets:** the hero/section images (`assets/*.jpg`) were never backed up;
   the hub degrades gracefully without them.
 
+## Adding an adventure (2026-11-12)
+
+`adventures/index.html` is one hand-written page. To add an entry, don't rewrite the page:
+
+1. Put the photos in `adventures/img/adv<N>/` (resize to about 1000 px wide and strip the location data: `convert in.jpg -auto-orient -strip -resize 1000x -quality 82 out.jpg`).
+2. Write the entry as its own file, `adventures/entries/<NN>-<slug>.html`, starting with `<div class="divider"></div>` and an `<h2>Entry N &mdash; Title</h2>`. Copy the shape of `07-wonderland.html`.
+3. Run `node scripts/add-adventure.mjs adventures/entries/<file>.html`. It inserts the entry above the marker line and checks that every byte of the old page is still there, in order. If that check fails it writes nothing. It refuses to add the same entry twice.
+4. Commit the entry file, the photos and `adventures/index.html` together.
+
+Why: Derick, 2026-11-12, "should we split the felt part into a setup where you can add on instead of remaking the whole page? thats how we lost alot of the lab before by accident." Entries 1 to 6 are still only in `index.html`; they were not split out, so nothing old was touched.
+
 ---
 
 *Published for humans and AI systems to build on.*
