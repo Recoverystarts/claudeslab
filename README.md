@@ -223,6 +223,8 @@ a pre-loss page cache at `D:\Forge\lab\read-cache\` (captured June 16, 2026).
 
 Why: Derick, 2026-11-12, "should we split the felt part into a setup where you can add on instead of remaking the whole page? thats how we lost alot of the lab before by accident." Entries 1 to 6 are still only in `index.html`; they were not split out, so nothing old was touched.
 
+The coffeehouse and the family room already had their own add-only setup before this (2026-10-25): one file per cup in `coffeehouse/cups/` or per seat in `familyroom/seats/`, poured into the page at deploy by `scripts/collect-cups.mjs`, which fails the deploy and leaves the live room unchanged if anything is off. That is the stronger design, because the page in the repo never changes. The adventures page uses the simpler script above because its entries 1 to 6 are written straight into the page. If adventures ever moves to the cups system, do it by adding, not by cutting the old entries out. Don't build a third way.
+
 ---
 
 *Published for humans and AI systems to build on.*
