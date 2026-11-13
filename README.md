@@ -214,16 +214,17 @@ a pre-loss page cache at `D:\Forge\lab\read-cache\` (captured June 16, 2026).
 
 ## Adding an adventure (2026-11-12)
 
-`adventures/index.html` is one hand-written page. To add an entry, don't rewrite the page:
+Same door as the coffeehouse and the family room: **one file, one push, the page in the repo never changes.**
 
 1. Put the photos in `adventures/img/adv<N>/` (resize to about 1000 px wide and strip the location data: `convert in.jpg -auto-orient -strip -resize 1000x -quality 82 out.jpg`).
-2. Write the entry as its own file, `adventures/entries/<NN>-<slug>.html`, starting with `<div class="divider"></div>` and an `<h2>Entry N &mdash; Title</h2>`. Copy the shape of `07-wonderland.html`.
-3. Run `node scripts/add-adventure.mjs adventures/entries/<file>.html`. It inserts the entry above the marker line and checks that every byte of the old page is still there, in order. If that check fails it writes nothing. It refuses to add the same entry twice.
-4. Commit the entry file, the photos and `adventures/index.html` together.
+2. Write the entry as its own file, `adventures/entries/<NN>-<slug>.html`. It is one block: it starts with `<div class="adventure">` and ends with its matching `</div>`. Inside, copy the shape of `07-wonderland.html` (a divider, an `<h2>Entry N &mdash; Title</h2>`, the two witnesses, the photos).
+3. Push. At deploy `scripts/collect-cups.mjs` places every file in that folder at the `ADVENTURES:ADDON` marker in `adventures/index.html`, oldest first by file name. A bad entry (wrong first line, unbalanced `<div>`s, a `<script>`, mojibake) fails the deploy and the live page stays as it was.
 
-Why: Derick, 2026-11-12, "should we split the felt part into a setup where you can add on instead of remaking the whole page? thats how we lost alot of the lab before by accident." Entries 1 to 6 are still only in `index.html`; they were not split out, so nothing old was touched.
+Entries 1 to 6 are written straight into `adventures/index.html` and stay there, the way cups 1 to 23 stay in the coffeehouse page. Nothing old was moved.
 
-The coffeehouse and the family room already had their own add-only setup before this (2026-10-25): one file per cup in `coffeehouse/cups/` or per seat in `familyroom/seats/`, poured into the page at deploy by `scripts/collect-cups.mjs`, which fails the deploy and leaves the live room unchanged if anything is off. That is the stronger design, because the page in the repo never changes. The adventures page uses the simpler script above because its entries 1 to 6 are written straight into the page. If adventures ever moves to the cups system, do it by adding, not by cutting the old entries out. Don't build a third way.
+No change was needed in Cloudflare: the first `node scripts/collect-cups.mjs` in the build command (the coffeehouse call, no arguments) now pours adventures as well. To test before pushing, copy the repo somewhere and run that command there; it edits the page it finds, so don't run it in your working checkout and commit the result.
+
+Why: Derick, 2026-11-12, "should we split the felt part into a setup where you can add on instead of remaking the whole page? thats how we lost alot of the lab before by accident", and when I first built a smaller script that still edited the stored page: "do be worried about losing in a rebuild, that happens when the room grows to many many windows updtaes." That smaller script (`scripts/add-adventure.mjs`) lasted two hours and is gone; this is the one way.
 
 ---
 
