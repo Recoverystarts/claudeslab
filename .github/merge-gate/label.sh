@@ -2,12 +2,13 @@
 # The merge gate's label check. The workflow (.github/workflows/merge-gate.yml) runs this file from the default branch
 # and gives it no pull-request code, so a pull request can't soften it.
 # What it decides, from the files a pull request changes:
-#   - lock files (LOCKS): files that steer a Claude session or run by themselves (instruction files, settings and hooks,
-#     workflows, this gate). They need the label "owner-go", and it counts only when the repo's owner added it by hand on
-#     github.com: not through the Claude app, not through a workflow.
+#   - lock files (LOCKS): the files the workflow names as the lock itself (this gate's scripts and its workflow; a repo
+#     may name more, such as the vault's door tests). They need the label "owner-go", and it counts only when the repo's
+#     owner added it by hand on github.com: not through the Claude app, not through a workflow.
 #   - free files (FREE minus NOT_FREE, optional): notes and data that need no label, up to 25 files, added or modified
 #     only, from a claude/* branch of this repo.
-#   - everything else needs the label "go".
+#   - everything else needs the label "go": code, and the files that steer a Claude session or run by themselves
+#     (instruction files, settings and hooks, the other workflows). NOT_FREE keeps those out of the free group.
 #   - a base branch that matches CHECKED_BASES (optional, e.g. ^wave/) needs the label "checked" and nothing else; its
 #     files meet the rules above when that branch itself goes to the default branch.
 # A new push takes the labels off, so new commits are looked at too.

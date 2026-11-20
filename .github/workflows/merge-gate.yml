@@ -1,9 +1,10 @@
 # The merge gate: a pull request into main is tested and, from a claude/* branch, merged by GitHub itself. Cloudflare Pages deploys main on push, so a merge here is the public site claudeslab.com.
 #  - `merge-gate tests` runs .github/merge-gate/check.sh on the pull request merged with its base.
-#  - `merge-gate label` runs .github/merge-gate/label.sh: lock files need "owner-go" (here that includes scripts/, which build the pages); everything else needs "go".
-#    Lock files are the ones that steer a Claude session or run by themselves: instruction files (CLAUDE.md, AGENTS.md,
-#    SKILL.md), dot-folders such as .claude/ and .github/, and this gate. "owner-go" counts only when the repo's owner
-#    added it by hand on github.com. A new push takes both labels off.
+#  - `merge-gate label` runs .github/merge-gate/label.sh: the gate's own files (.github/merge-gate/ and this workflow) need "owner-go"; everything else needs "go".
+#    "owner-go" counts only when the repo's owner added it by hand on github.com. The gate's files are the lock itself: a
+#    change to them changes what merges. Files that steer a Claude session or run by themselves (CLAUDE.md, AGENTS.md,
+#    SKILL.md, .claude/, the other workflows, scripts/) need "go", like code. From the morning to the evening of
+#    2026-11-20 they needed "owner-go" too; LOCKS below keeps that line in a comment. A new push takes both labels off.
 #  - `report` posts one commit status, "merge-gate", on the pull request's head. The rule set on main requires it.
 #  - `merge` merges claude/* heads from this repo, exactly the commit that was tested.
 # pull_request_target: GitHub runs this file from the default branch, and check.sh and label.sh are taken from the
@@ -89,7 +90,10 @@ jobs:
           HEAD: ${{ github.head_ref }}
           HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
           BASE: ${{ github.base_ref }}
-          LOCKS: '(^|/)\.[^/]+(/|$)|(^|/)(CLAUDE|AGENTS|GEMINI|SKILL)(\.local)?\.md$|^scripts/'
+          # lock files (owner-go): the gate itself, which is its scripts and this workflow.
+          # Until the evening of 2026-11-20 this was:
+          #   '(^|/)\.[^/]+(/|$)|(^|/)(CLAUDE|AGENTS|GEMINI|SKILL)(\.local)?\.md$|^scripts/'
+          LOCKS: '^\.github/merge-gate/|^\.github/workflows/merge-gate\.yml$'
           FREE: ''
           NOT_FREE: ''
           ALL_LOCKS: ''
