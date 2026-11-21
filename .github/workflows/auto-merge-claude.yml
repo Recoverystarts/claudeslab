@@ -1,0 +1,50 @@
+# Finished product for automation: no other steps needed.
+# Auto-merge for Claude pull requests: any non-draft PR from a claude/* branch into main is checked, then merged by
+# GitHub. Railway or Cloudflare deploys main on push.
+name: Auto-merge Claude PRs
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: auto-merge-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  check-and-merge:
+    if: startsWith(github.head_ref, 'claude/') && github.event.pull_request.draft == false && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Syntax-check every changed JS and JSON file
+        run: |
+          base="origin/${{ github.base_ref }}"
+          files=$(git diff --name-only "$base...HEAD" -- '*.js' '*.mjs' '*.cjs' '*.json' || true)
+          n=0
+          for f in $files; do
+            [ -f "$f" ] || continue
+            case "$f" in
+              *.json) node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" ;;
+              *)      node --check "$f" ;;
+            esac
+            n=$((n+1))
+          done
+          echo "checked $n file(s)"
+      - name: Generated pages are current
+        run: node scripts/build-home-index.mjs && node scripts/build-papers-index.mjs && git diff --exit-code -- index.html papers/index.html data/home-cards.hash
+      - name: Merge
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh pr merge "${{ github.event.pull_request.number }}" --merge --delete-branch
