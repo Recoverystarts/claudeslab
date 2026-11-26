@@ -46,3 +46,6 @@ const a = process.argv;
 pour(a[2] || '.', a[3] || 'coffeehouse/index.html', a[4] || 'coffeehouse/cups', a[5] || 'CUPS:ADDON', a[6] || 'cup');
 // The plain call (no page named) is the coffeehouse call in the build command; it carries adventures too.
 if (!a[3]) pour(a[2] || '.', 'adventures/index.html', 'adventures/entries', 'ADVENTURES:ADDON', 'adventure');
+// Since 2026-11-26 it also carries the felt part's entries (felt-part/entries/*.html) onto notes/the-felt-part.html at
+// FELT:ADDON, so the primary-purpose page can grow by one file the way the coffeehouse does (Derick asked, that day).
+if (!a[3]) pour(a[2] || '.', 'notes/the-felt-part.html', 'felt-part/entries', 'FELT:ADDON', 'felt');
